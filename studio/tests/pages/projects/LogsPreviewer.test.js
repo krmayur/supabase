@@ -37,25 +37,6 @@ beforeEach(() => {
   useParams.mockReturnValue(routerReturnValue.query)
 })
 
-// in the event that log metadata is not available, fall back to default renderer
-// generate test cases for each query type
-const defaultRendererFallbacksCases = [
-  'api', 'database', 'auth', 'pgbouncer', 'postgrest', 'storage', 'realtime'
-].map((queryType) => ({
-  testName: "fallback to default render",
-  queryType,
-  tableName: undefined,
-  tableLog: logDataFixture({
-    event_message: 'some message',
-    metadata: undefined,
-  }),
-  selectionLog: logDataFixture({
-    metadata: undefined,
-  }),
-  tableTexts: [/some message/],
-  selectionTexts: [/some message/],
-}))
-
 test.each([
   {
     queryType: 'api',
@@ -72,7 +53,6 @@ test.each([
     tableTexts: [/POST/, /some\-path/, /400/],
     selectionTexts: [/POST/, /Timestamp/, RegExp(`${new Date().getFullYear()}.+`, 'g')],
   },
-
   {
     queryType: 'database',
     tableName: undefined,
@@ -104,7 +84,6 @@ test.each([
     ],
   },
   {
-
     queryType: 'auth',
     tableName: undefined,
     tableLog: logDataFixture({
@@ -135,9 +114,8 @@ test.each([
       RegExp(`${new Date().getFullYear()}.+`, 'g'),
     ],
   },
-  ...defaultRendererFallbacksCases,
   // these all use teh default selection/table renderers
-  ...['pgbouncer', 'postgrest', 'storage', 'realtime', "supavisor"].map((queryType) => ({
+  ...['pgbouncer', 'postgrest', 'storage', 'realtime'].map((queryType) => ({
     queryType,
     tableName: undefined,
     tableLog: logDataFixture({
@@ -151,7 +129,7 @@ test.each([
     selectionTexts: [/some/, /nested/, /value/, RegExp(`${new Date().getFullYear()}.+`, 'g')],
   })),
 ])(
-  'selection $queryType $queryType, $tableName , can display log data and metadata $testName',
+  'selection $queryType $tableName , can display log data and metadata',
   async ({ queryType, tableName, tableLog, selectionLog, tableTexts, selectionTexts }) => {
     get.mockImplementation((url) => {
       // counts
@@ -239,7 +217,7 @@ test('Search will trigger a log refresh', async () => {
 test('poll count for new messages', async () => {
   get.mockImplementation((url) => {
     if (url.includes('count')) {
-      return { result: [{ count: 999 }] }
+      return { result: [{ count: 125 }] }
     }
     return {
       result: [logDataFixture({ id: 'some-uuid123' })],
@@ -248,10 +226,10 @@ test('poll count for new messages', async () => {
   render(<LogsPreviewer projectRef="123" tableName={LogsTableName.EDGE} />)
   await waitFor(() => screen.queryByText(/some-uuid123/) === null)
   // should display new logs count
-  await waitFor(() => screen.getByText(/999/))
+  await waitFor(() => screen.getByText(/125/))
 
   userEvent.click(screen.getByText(/Refresh/))
-  await waitFor(() => screen.queryByText(/999/) === null)
+  await waitFor(() => screen.queryByText(/125/) === null)
   await screen.findByText(/some-uuid123/)
 })
 test('log event chart', async () => {

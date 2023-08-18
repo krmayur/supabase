@@ -12,22 +12,23 @@ export default {
     title: 'Supabase Vector',
     h1: (
       <span key={'vector-h1'} className="heading-gradient">
-        The Postgres Vector database <br />
-        and AI Toolkit
+        The open source Vector Toolkit <br />
+        for Postgres
       </span>
     ),
     subheader: (
       <>
-        An open source Vector database for developing AI applications.
+        Use the Supabase client libraries to store, index, and query your vector embeddings at
+        scale.
         <br className="hidden md:block" />
-        Use pgvector to store, index, and access embeddings, and our AI toolkit to build AI
-        applications with Hugging Face and OpenAI.
+        Build AI applications with your Postgres and pgvector. The best vector database is the
+        database you already have.
       </>
     ),
     image: '/images/product/vector/vector-hero.svg',
     cta: {
-      label: 'Launch a free database',
-      link: '/dashboard',
+      label: 'Quickstart',
+      link: '/docs/guides/ai/quickstarts/hello-world',
     },
     secondaryCta: {
       label: 'Explore documentation',

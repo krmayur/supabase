@@ -44,9 +44,9 @@ export const generateLogsMenu = (project?: Project): ProductMenuGroup[] => {
         },
         IS_PLATFORM
           ? {
-              name: 'Pooler',
-              key: 'pooler-logs',
-              url: `/project/${ref}/logs/pooler-logs`,
+              name: 'PgBouncer',
+              key: 'pgbouncer-logs',
+              url: `/project/${ref}/logs/pgbouncer-logs`,
               items: [],
             }
           : null,

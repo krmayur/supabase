@@ -24,7 +24,9 @@ interface Props {
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL ?? 'http://localhost:54321',
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_SECRET ??
+    process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_SECRET ??
+    ''
 )
 
 export default function UsernamePage({ user, users, ogImageUrl }: Props) {

@@ -5,17 +5,12 @@ import {
   TextFormatter,
   TimestampLocalFormatter,
 } from '../LogsFormatters'
-import DefaultPreviewColumnRenderer from './DefaultPreviewColumnRenderer'
 
 export default [
   {
     formatter: (data: {
       row: PreviewLogData & { level: string; msg: string | null; status: number; path: string }
     }) => {
-      if (!data.row.level) {
-        return DefaultPreviewColumnRenderer[0].formatter(data)
-      }
-
       return (
         <RowLayout>
           <TimestampLocalFormatter value={data.row.timestamp!} />
